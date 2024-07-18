@@ -10,7 +10,7 @@ const BlockSummary = ({ blockDetails }) => {
     return (
       <div className='block-summary-loading-container'>
         <div>
-          <RiseLoader color='#72f491' size='20' />
+          <RiseLoader color='#72f491' size='20px' />
           <p className='block-number'>Loading block details</p>
         </div>
       </div>

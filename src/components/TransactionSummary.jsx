@@ -10,7 +10,7 @@ const TransactionSummary = ({ transactionDetails }) => {
     return (
       <div className='transaction-summary-loading-container'>
         <div>
-          <RiseLoader color='#72f491' size='20' />
+          <RiseLoader color='#72f491' size='20px' />
           <p className='h1'>Loading transaction details</p>
         </div>
       </div>

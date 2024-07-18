@@ -10,6 +10,12 @@ const ScrollableChain = ({
   const [currentIndex, setCurrentIndex] = useState(0)
   const scrollRef = useRef(null)
 
+  useEffect(() => {
+    if (blockNumbers.length > 0) {
+      setCurrentIndex(blockNumbers.length - 1)
+    }
+  }, [blockNumbers])
+
   const nextSlide = () => {
     if (currentIndex < blockNumbers.length - 1) {
       setCurrentIndex(currentIndex + 1)
