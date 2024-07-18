@@ -1,0 +1,50 @@
+.transaction-summary-information-container {
+  padding: 20px;
+  background: #1d1d1d;
+  border-radius: 10px;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  width: 50%;
+  max-height: 100%;
+  height: 100%;
+}
+
+.transaction-summary-loading-container {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #1d1d1d;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+  overflow: hidden;
+  width: 50%;
+  max-height: 100%;
+  height: 100%;
+}
+
+.h1 {
+  font-size: 20px;
+  color: #72f491;
+  font-weight: bold;
+}
+
+.dummy-graph {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  height: 100px;
+  background-color: #240046;
+  border-radius: 10px;
+  /* padding: 20px; */
+  box-shadow: 0 0 10px rgba(224, 170, 255, 0.3),
+    0 0 30px rgba(224, 170, 255, 0.2);
+}
+
+.bar {
+  width: 20px;
+  background-color: #e0aaff;
+  transition: height 0.3s ease-in-out;
+}

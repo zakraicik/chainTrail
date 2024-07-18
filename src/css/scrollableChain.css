@@ -1,0 +1,98 @@
+.scrollable-chain-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.chain-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #72f491;
+  cursor: pointer;
+  z-index: 2;
+  padding: 0 20px;
+}
+
+.scrollable-chain-container {
+  overflow: hidden;
+  width: calc(100% - 80px);
+}
+
+.scrollable-chain {
+  display: flex;
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+  width: 100%;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.chain-button.left {
+  left: -30px;
+}
+
+.chain-button.right {
+  right: -30px;
+}
+
+.chain-item.invisible {
+  visibility: hidden;
+}
+
+.chain-item {
+  flex: 0 0 33.33%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10vh;
+  margin: 0 15px;
+  border-radius: 80px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.chain-item-line-1 {
+  font-size: 12px;
+  color: #1d1d1d;
+}
+
+.chain-item-line-2 {
+  font-size: 24px;
+  color: #000;
+}
+
+.chain-item:hover {
+  transform: translateY(-10px);
+}
+
+.chain-item.selected {
+  background: #72f491;
+  color: #ffffff;
+  font-weight: bolder;
+}
+
+.chain-item.unselected {
+  background: rgba(114, 244, 145, 0.28);
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.block-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.block-label {
+  font-size: 12px;
+  color: #72f491;
+}
+
+.block-number {
+  font-size: 16px;
+  color: #ffffff;
+}
