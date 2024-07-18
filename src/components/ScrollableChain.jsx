@@ -1,3 +1,4 @@
+// ScrollableChain.js
 import React, { useState, useRef, useEffect } from 'react'
 
 import '../css/scrollableChain.css'
@@ -32,11 +33,11 @@ const ScrollableChain = ({
     }
   }
 
-  const handleBlockClick = (block, index) => {
-    if (selectedBlock && selectedBlock.blockNumber === block.blockNumber) {
+  const handleBlockClick = (blockNumber, index) => {
+    if (selectedBlock && selectedBlock === blockNumber) {
       handleBlockSelection(null)
     } else {
-      handleBlockSelection(block)
+      handleBlockSelection(blockNumber)
     }
     const blockWidth = scrollRef.current.scrollWidth / (blockNumbers.length + 2)
     scrollRef.current.scrollLeft = index * blockWidth
@@ -64,19 +65,19 @@ const ScrollableChain = ({
       <div className='scrollable-chain-container'>
         <div className='scrollable-chain' ref={scrollRef}>
           <div className='chain-item invisible'></div>
-          {blockNumbers.map((block, index) => (
+          {blockNumbers.map((blockNumber, index) => (
             <div
-              key={block.id}
+              key={blockNumber}
               className={`chain-item ${
-                selectedBlock && selectedBlock.blockNumber === block.blockNumber
+                selectedBlock && selectedBlock === blockNumber
                   ? 'selected'
                   : 'unselected'
               }`}
-              onClick={() => handleBlockClick(block, index)}
+              onClick={() => handleBlockClick(blockNumber, index)}
             >
               <div>
                 <div className='chain-item-line-1'>Block Number</div>
-                <div className='chain-item-line-2'>{block.blockNumber}</div>
+                <div className='chain-item-line-2'>{blockNumber}</div>
               </div>
             </div>
           ))}

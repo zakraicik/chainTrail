@@ -1,11 +1,11 @@
+// App.js
+import React, { useEffect, useState, useCallback } from 'react'
 import { Alchemy, Network } from 'alchemy-sdk'
-import { useEffect, useState, useCallback } from 'react'
 import ScrollableChain from './components/ScrollableChain'
 import BlockSummary from './components/BlockSummary'
 import TransactionSummary from './components/TransactionSummary'
 import Header from './components/Header'
 import { RiseLoader } from 'react-spinners'
-
 import { getBlockDetails, getBlockTransactions } from './helper/alchemyHelpers'
 
 import './App.css'
@@ -30,7 +30,7 @@ function App () {
         const currentBlockNumber = await alchemy.core.getBlockNumber()
         const blockNumbersArray = []
         for (let i = 0; i < 5; i++) {
-          blockNumbersArray.push({ id: i, blockNumber: currentBlockNumber - i })
+          blockNumbersArray.push(currentBlockNumber - i)
         }
 
         setBlockNumbers(blockNumbersArray.reverse())
@@ -45,13 +45,24 @@ function App () {
     getBlockNumbers()
   }, [])
 
+  const loadMoreBlocks = async () => {
+    try {
+      const oldestBlockNumber = blockNumbers[0]
+      const moreBlocks = []
+      for (let i = 1; i <= 5; i++) {
+        moreBlocks.push(oldestBlockNumber - i)
+      }
+
+      setBlockNumbers(prevBlocks => [...moreBlocks.reverse(), ...prevBlocks])
+    } catch (error) {
+      console.error('Error loading more blocks', error)
+    }
+  }
+
   const fetchBlockDetails = useCallback(async () => {
     if (selectedBlock) {
       try {
-        const blockDetails = await getBlockDetails(
-          selectedBlock.blockNumber,
-          alchemy
-        )
+        const blockDetails = await getBlockDetails(selectedBlock, alchemy)
         setBlockDetails(blockDetails)
       } catch (error) {
         console.error('Error fetching block details', error)
@@ -73,8 +84,8 @@ function App () {
     }
   }, [blockDetails])
 
-  const handleBlockSelection = block => {
-    setSelectedBlock(block)
+  const handleBlockSelection = blockNumber => {
+    setSelectedBlock(blockNumber)
     setBlockDetails(null)
     setTransactionDetails(null)
   }
@@ -102,6 +113,7 @@ function App () {
               blockNumbers={blockNumbers}
               handleBlockSelection={handleBlockSelection}
               selectedBlock={selectedBlock}
+              loadMoreBlocks={loadMoreBlocks} // Pass the loadMoreBlocks function
             />
           </div>
           <div className='row-container'>
@@ -112,7 +124,7 @@ function App () {
               </>
             ) : (
               <div className='empty-information-container'>
-                <div className='no-selection'> test</div>
+                <div className='no-selection'>test</div>
               </div>
             )}
           </div>
