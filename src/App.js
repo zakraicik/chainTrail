@@ -24,7 +24,7 @@ function App () {
   const [transactionDetails, setTransactionDetails] = useState(null)
   const [loading, setLoading] = useState(true) // Add loading state
 
-  const onPress = () => {
+  const search = () => {
     console.log('hello')
   }
 
@@ -111,7 +111,7 @@ function App () {
         </div>
       ) : (
         <>
-          <Header onPress={onPress} />
+          <Header onPress={search} />
           <div className='scrollable-chain-parent-container'>
             <ScrollableChain
               blockNumbers={blockNumbers}

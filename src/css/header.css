@@ -20,31 +20,30 @@
 }
 
 .search-bar-container {
+  position: relative; /* Position relative for the absolute positioning of the icon */
   display: flex;
   align-items: center;
   flex: 1;
-  max-width: 25%;
+  max-width: 15%;
 }
 
 .search-bar {
   width: 100%;
-  padding: 0 10px; /* Adjust padding as needed */
-  font-size: 16px;
+  padding: 0 40px 0 10px; /* Adjust padding to make space for the icon */
+  font-size: 12px;
   font-style: italic;
   height: 40px; /* Match the height of the logo */
   background-color: #1d1d1d;
   border: none;
   border-radius: 10px;
   color: #fff; /* Ensure the text color is visible */
-  flex-grow: 1;
-  text-align: center;
 }
 
 .search-icon {
+  position: absolute;
+  right: 20px; /* Position the icon inside the input */
   color: #72f491;
   cursor: pointer;
-  font-size: 25px;
-  margin-left: 10px; /* Adjust margin as needed */
 }
 
 .header-text {

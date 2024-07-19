@@ -5,7 +5,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 import '../css/header.css'
 
-const Header = ({ onPress }) => {
+const Header = ({ search }) => {
   return (
     <header className='header'>
       <div className='header-row'>
@@ -16,9 +16,11 @@ const Header = ({ onPress }) => {
             className='search-bar'
             placeholder='Block number or hash'
           />
-          <div onClick={onPress}>
-            <FontAwesomeIcon icon={faSearch} className='search-icon' />
-          </div>
+          <FontAwesomeIcon
+            icon={faSearch}
+            className='search-icon'
+            onClick={search}
+          />
         </div>
       </div>
       <div className='header-row'>
