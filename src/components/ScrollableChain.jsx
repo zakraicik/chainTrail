@@ -1,8 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import '../css/scrollableChain.css'
 
-const marginOffset = 15
-
 const ScrollableChain = ({
   blockNumbers,
   handleBlockSelection,
@@ -10,7 +8,6 @@ const ScrollableChain = ({
   addBlock
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [previousIndex, setPreviousIndex] = useState(null)
   const scrollRef = useRef(null)
 
   useEffect(() => {
@@ -21,7 +18,6 @@ const ScrollableChain = ({
 
   const nextSlide = () => {
     if (currentIndex < blockNumbers.length - 1) {
-      setPreviousIndex(currentIndex)
       setCurrentIndex(currentIndex + 1)
       scrollRef.current.scrollLeft +=
         scrollRef.current.scrollWidth / (blockNumbers.length + 2)
@@ -30,7 +26,6 @@ const ScrollableChain = ({
 
   const prevSlide = () => {
     if (currentIndex > 0) {
-      setPreviousIndex(currentIndex)
       setCurrentIndex(currentIndex - 1)
       scrollRef.current.scrollLeft -=
         scrollRef.current.scrollWidth / (blockNumbers.length + 2)
@@ -40,7 +35,6 @@ const ScrollableChain = ({
   }
 
   const handleBlockClick = (blockNumber, index) => {
-    setPreviousIndex(currentIndex)
     setCurrentIndex(index)
 
     if (selectedBlock && selectedBlock === blockNumber) {
@@ -50,7 +44,7 @@ const ScrollableChain = ({
     }
     const blockWidth = scrollRef.current.scrollWidth / (blockNumbers.length + 2)
 
-    scrollRef.current.scrollLeft += (currentIndex - previousIndex) * blockWidth //works but only if I push the block twice
+    scrollRef.current.scrollLeft += (index - currentIndex) * blockWidth //works but only if I push the block twice
   }
 
   useEffect(() => {
@@ -66,18 +60,6 @@ const ScrollableChain = ({
       window.removeEventListener('resize', adjustScrollPosition)
     }
   }, [blockNumbers])
-
-  useEffect(() => {
-    const handleScroll = () => {
-      console.log('Scroll Position: ', scrollRef.current.scrollLeft)
-    }
-
-    const scrollableElement = scrollRef.current
-    scrollableElement.addEventListener('scroll', handleScroll)
-    return () => {
-      scrollableElement.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
 
   return (
     <div className='scrollable-chain-wrapper'>
