@@ -25,10 +25,10 @@
 
 .scrollable-chain {
   display: flex;
-  overflow-x: scroll;
+  overflow: auto;
   scroll-behavior: smooth;
-  width: 100%;
-  padding: 40px;
+  width: 1000px;
+  padding: 40px 0;
   box-sizing: border-box;
 }
 
@@ -49,7 +49,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 10vh;
+  flex-direction: column;
+  height: 80px;
   margin: 0 15px;
   border-radius: 80px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;

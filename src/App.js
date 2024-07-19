@@ -45,15 +45,12 @@ function App () {
     getBlockNumbers()
   }, [])
 
-  const loadMoreBlocks = async () => {
+  const addBlock = async () => {
     try {
       const oldestBlockNumber = blockNumbers[0]
-      const moreBlocks = []
-      for (let i = 1; i <= 5; i++) {
-        moreBlocks.push(oldestBlockNumber - i)
-      }
+      const newBlockNumber = oldestBlockNumber - 1
 
-      setBlockNumbers(prevBlocks => [...moreBlocks.reverse(), ...prevBlocks])
+      setBlockNumbers(prevBlocks => [newBlockNumber, ...prevBlocks])
     } catch (error) {
       console.error('Error loading more blocks', error)
     }
@@ -113,7 +110,7 @@ function App () {
               blockNumbers={blockNumbers}
               handleBlockSelection={handleBlockSelection}
               selectedBlock={selectedBlock}
-              loadMoreBlocks={loadMoreBlocks} // Pass the loadMoreBlocks function
+              addBlock={addBlock} // Pass the addBlock function as a prop
             />
           </div>
           <div className='row-container'>
