@@ -11,24 +11,36 @@ const ScrollableChain = ({
   const scrollRef = useRef(null)
 
   const nextSlide = () => {
+    const blockWidth = scrollRef.current.scrollWidth / (blockNumbers.length + 2)
+    const totalScrollWidth = scrollRef.current.scrollWidth
+    const visibleWidth = scrollRef.current.clientWidth
+
     if (currentIndex < blockNumbers.length - 1) {
-      setCurrentIndex(currentIndex + 1)
+      const newIndex = currentIndex + 1
+      setCurrentIndex(newIndex)
+      handleBlockSelection(blockNumbers[newIndex])
 
-      const blockWidth =
-        scrollRef.current.scrollWidth / (blockNumbers.length + 2)
-
-      scrollRef.current.scrollLeft += blockWidth
+      scrollRef.current.scrollLeft =
+        totalScrollWidth -
+        visibleWidth -
+        (blockNumbers.length - currentIndex - 2) * blockWidth
     }
   }
 
   const prevSlide = async () => {
+    const blockWidth = scrollRef.current.scrollWidth / (blockNumbers.length + 2)
+    const totalScrollWidth = scrollRef.current.scrollWidth
+    const visibleWidth = scrollRef.current.clientWidth
+
     if (currentIndex > 1) {
-      setCurrentIndex(currentIndex - 1)
+      const newIndex = currentIndex - 1
+      setCurrentIndex(newIndex)
+      handleBlockSelection(blockNumbers[newIndex])
 
-      const blockWidth =
-        scrollRef.current.scrollWidth / (blockNumbers.length + 2)
-
-      scrollRef.current.scrollLeft -= blockWidth
+      scrollRef.current.scrollLeft =
+        totalScrollWidth -
+        visibleWidth -
+        (blockNumbers.length - currentIndex) * blockWidth
     } else if (currentIndex === 1) {
       await addBlock()
       setCurrentIndex(1)
