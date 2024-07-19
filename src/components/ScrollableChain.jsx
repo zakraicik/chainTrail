@@ -7,30 +7,31 @@ const ScrollableChain = ({
   selectedBlock,
   addBlock
 }) => {
-  const [currentIndex, setCurrentIndex] = useState(0)
+  const [currentIndex, setCurrentIndex] = useState(blockNumbers.length - 1)
   const scrollRef = useRef(null)
-
-  useEffect(() => {
-    if (blockNumbers.length > 0) {
-      setCurrentIndex(blockNumbers.length - 1)
-    }
-  }, [blockNumbers])
 
   const nextSlide = () => {
     if (currentIndex < blockNumbers.length - 1) {
       setCurrentIndex(currentIndex + 1)
-      scrollRef.current.scrollLeft +=
+
+      const blockWidth =
         scrollRef.current.scrollWidth / (blockNumbers.length + 2)
+
+      scrollRef.current.scrollLeft += blockWidth
     }
   }
 
-  const prevSlide = () => {
-    if (currentIndex > 0) {
+  const prevSlide = async () => {
+    if (currentIndex > 1) {
       setCurrentIndex(currentIndex - 1)
-      scrollRef.current.scrollLeft -=
+
+      const blockWidth =
         scrollRef.current.scrollWidth / (blockNumbers.length + 2)
-    } else if (currentIndex === 0) {
-      addBlock()
+
+      scrollRef.current.scrollLeft -= blockWidth
+    } else if (currentIndex === 1) {
+      await addBlock()
+      setCurrentIndex(1)
     }
   }
 
@@ -44,7 +45,7 @@ const ScrollableChain = ({
     }
     const blockWidth = scrollRef.current.scrollWidth / (blockNumbers.length + 2)
 
-    scrollRef.current.scrollLeft += (index - currentIndex) * blockWidth //works but only if I push the block twice
+    scrollRef.current.scrollLeft += (index - currentIndex) * blockWidth
   }
 
   useEffect(() => {
@@ -59,7 +60,7 @@ const ScrollableChain = ({
     return () => {
       window.removeEventListener('resize', adjustScrollPosition)
     }
-  }, [blockNumbers])
+  }, [])
 
   return (
     <div className='scrollable-chain-wrapper'>

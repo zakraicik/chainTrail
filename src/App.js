@@ -50,7 +50,10 @@ function App () {
       const oldestBlockNumber = blockNumbers[0]
       const newBlockNumber = oldestBlockNumber - 1
 
-      setBlockNumbers(prevBlocks => [newBlockNumber, ...prevBlocks])
+      setBlockNumbers(prevBlocks => {
+        const newBlockNumbers = [newBlockNumber, ...prevBlocks]
+        return newBlockNumbers
+      })
     } catch (error) {
       console.error('Error loading more blocks', error)
     }
