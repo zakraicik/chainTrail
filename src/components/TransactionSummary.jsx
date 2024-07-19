@@ -53,8 +53,8 @@ const TransactionSummary = ({ transactionDetails }) => {
     ],
     xaxis: {
       type: 'numeric',
+      categories: transactionIndexData,
       stepSize: 1,
-
       axisBorder: {
         show: true,
         color: '#6A6A6A'

@@ -24,6 +24,10 @@ function App () {
   const [transactionDetails, setTransactionDetails] = useState(null)
   const [loading, setLoading] = useState(true) // Add loading state
 
+  const onPress = () => {
+    console.log('hello')
+  }
+
   useEffect(() => {
     async function getBlockNumbers () {
       try {
@@ -107,7 +111,7 @@ function App () {
         </div>
       ) : (
         <>
-          <Header />
+          <Header onPress={onPress} />
           <div className='scrollable-chain-parent-container'>
             <ScrollableChain
               blockNumbers={blockNumbers}
