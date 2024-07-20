@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import logo from '../assets/logo.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
@@ -6,6 +6,11 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import '../css/header.css'
 
 const Header = ({ search }) => {
+  const [inputValue, setInputValue] = useState('')
+  const handleInputChange = event => {
+    setInputValue(event.target.value)
+  }
+
   return (
     <header className='header'>
       <div className='header-row'>
@@ -15,11 +20,13 @@ const Header = ({ search }) => {
             type='text'
             className='search-bar'
             placeholder='Block number or hash'
+            value={inputValue}
+            onChange={handleInputChange}
           />
           <FontAwesomeIcon
             icon={faSearch}
             className='search-icon'
-            onClick={search}
+            onClick={() => search(inputValue)}
           />
         </div>
       </div>

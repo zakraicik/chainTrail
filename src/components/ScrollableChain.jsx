@@ -41,14 +41,16 @@ const ScrollableChain = ({
         totalScrollWidth -
         visibleWidth -
         (blockNumbers.length - currentIndex) * blockWidth
-    } else if (currentIndex === 1) {
+    } else if (currentIndex <= 1) {
       await addBlock()
-      setCurrentIndex(1)
+      setCurrentIndex(currentIndex)
     }
   }
 
-  const handleBlockClick = (blockNumber, index) => {
+  const handleBlockClick = async (blockNumber, index) => {
     setCurrentIndex(index)
+    const totalScrollWidth = scrollRef.current.scrollWidth
+    const visibleWidth = scrollRef.current.clientWidth
 
     if (selectedBlock && selectedBlock === blockNumber) {
       handleBlockSelection(null)
@@ -57,7 +59,16 @@ const ScrollableChain = ({
     }
     const blockWidth = scrollRef.current.scrollWidth / (blockNumbers.length + 2)
 
-    scrollRef.current.scrollLeft += (index - currentIndex) * blockWidth
+    const scrollDelta = (index + 1 - blockNumbers.length) * blockWidth
+
+    scrollRef.current.scrollLeft = totalScrollWidth - visibleWidth + scrollDelta
+
+    // scrollRef.current.scrollLeft += (index - currentIndex) * blockWidth
+
+    // if (index <= 1) {
+    //   await addBlock()
+    //   setCurrentIndex(index + 1)
+    // }
   }
 
   useEffect(() => {

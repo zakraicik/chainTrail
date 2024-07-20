@@ -24,8 +24,10 @@ function App () {
   const [transactionDetails, setTransactionDetails] = useState(null)
   const [loading, setLoading] = useState(true) // Add loading state
 
-  const search = () => {
-    console.log('hello')
+  function search (blockNumber) {
+    if (blockNumbers.includes(blockNumber)) {
+      handleBlockSelection(blockNumbers.indexOf(blockNumber))
+    }
   }
 
   useEffect(() => {
@@ -111,7 +113,7 @@ function App () {
         </div>
       ) : (
         <>
-          <Header onPress={search} />
+          <Header search={search} />
           <div className='scrollable-chain-parent-container'>
             <ScrollableChain
               blockNumbers={blockNumbers}
