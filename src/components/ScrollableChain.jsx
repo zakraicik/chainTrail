@@ -8,10 +8,19 @@ const ScrollableChain = ({
   addBlock
 }) => {
   const [currentIndex, setCurrentIndex] = useState(blockNumbers.length - 1)
+  const [blockWidth, setBlockWidth] = useState(null)
+  const [numberBlocks, setNumberBlocks] = useState(null)
   const scrollRef = useRef(null)
 
-  const nextSlide = () => {
+  useEffect(() => {
+    const numberBlocks = blockNumbers.length
+    setNumberBlocks(numberBlocks)
+
     const blockWidth = scrollRef.current.scrollWidth / (blockNumbers.length + 2)
+    setBlockWidth(blockWidth)
+  }, [blockNumbers])
+
+  const nextSlide = () => {
     const totalScrollWidth = scrollRef.current.scrollWidth
     const visibleWidth = scrollRef.current.clientWidth
 
@@ -23,12 +32,11 @@ const ScrollableChain = ({
       scrollRef.current.scrollLeft =
         totalScrollWidth -
         visibleWidth -
-        (blockNumbers.length - currentIndex - 2) * blockWidth
+        (numberBlocks - currentIndex - 2) * blockWidth
     }
   }
 
   const prevSlide = async () => {
-    const blockWidth = scrollRef.current.scrollWidth / (blockNumbers.length + 2)
     const totalScrollWidth = scrollRef.current.scrollWidth
     const visibleWidth = scrollRef.current.clientWidth
 
@@ -40,10 +48,13 @@ const ScrollableChain = ({
       scrollRef.current.scrollLeft =
         totalScrollWidth -
         visibleWidth -
-        (blockNumbers.length - currentIndex) * blockWidth
+        (numberBlocks - currentIndex) * blockWidth
     } else if (currentIndex <= 1) {
-      await addBlock()
-      setCurrentIndex(currentIndex)
+      const newBlockNumbers = await addBlock()
+      setNumberBlocks(newBlockNumbers.length)
+      setCurrentIndex(1)
+      handleBlockSelection(newBlockNumbers[1])
+      console.log(blockNumbers)
     }
   }
 
@@ -57,13 +68,10 @@ const ScrollableChain = ({
     } else {
       handleBlockSelection(blockNumber)
     }
-    const blockWidth = scrollRef.current.scrollWidth / (blockNumbers.length + 2)
 
-    const scrollDelta = (index + 1 - blockNumbers.length) * blockWidth
+    const scrollDelta = (index + 1 - numberBlocks) * blockWidth
 
     scrollRef.current.scrollLeft = totalScrollWidth - visibleWidth + scrollDelta
-
-    // scrollRef.current.scrollLeft += (index - currentIndex) * blockWidth
 
     // if (index <= 1) {
     //   await addBlock()

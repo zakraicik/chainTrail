@@ -51,18 +51,22 @@ function App () {
     getBlockNumbers()
   }, [])
 
-  const addBlock = async () => {
-    try {
-      const oldestBlockNumber = blockNumbers[0]
-      const newBlockNumber = oldestBlockNumber - 1
+  const addBlock = () => {
+    return new Promise((resolve, reject) => {
+      try {
+        const oldestBlockNumber = blockNumbers[0]
+        const newBlockNumber = oldestBlockNumber - 1
 
-      setBlockNumbers(prevBlocks => {
-        const newBlockNumbers = [newBlockNumber, ...prevBlocks]
-        return newBlockNumbers
-      })
-    } catch (error) {
-      console.error('Error loading more blocks', error)
-    }
+        setBlockNumbers(prevBlocks => {
+          const newBlockNumbers = [newBlockNumber, ...prevBlocks]
+          resolve(newBlockNumbers)
+          return newBlockNumbers
+        })
+      } catch (error) {
+        console.error('Error loading more blocks', error)
+        reject(error)
+      }
+    })
   }
 
   const fetchBlockDetails = useCallback(async () => {
