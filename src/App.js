@@ -81,16 +81,16 @@ function App () {
 
     getBlockNumbers()
 
-    const handleNewBlock = blockNumber => {
-      setBlockNumbers(prevBlockNumbers => [...prevBlockNumbers, blockNumber])
-      console.log(blockNumber)
-    }
+    // const handleNewBlock = blockNumber => {
+    //   setBlockNumbers(prevBlockNumbers => [...prevBlockNumbers, blockNumber])
+    //   console.log(blockNumber)
+    // }
 
-    alchemy.ws.on('block', handleNewBlock)
+    // alchemy.ws.on('block', handleNewBlock)
 
-    return () => {
-      alchemy.ws.removeAllListeners([])
-    }
+    // return () => {
+    //   alchemy.ws.removeAllListeners([])
+    // }
   }, [])
 
   const addEarlierBlock = () => {
@@ -110,24 +110,6 @@ function App () {
       }
     })
   }
-
-  // const addNewerBlock = () => {
-  //   return new Promise((resolve, reject) => {
-  //     try {
-  //       const newestBlockNumber = blockNumbers[blockNumbers.length - 1]
-  //       const newBlockNumber = newestBlockNumber + 1
-
-  //       setBlockNumbers(prevBlocks => {
-  //         const newBlockNumbers = [...prevBlocks, newBlockNumber]
-  //         resolve(newBlockNumbers)
-  //         return newBlockNumbers
-  //       })
-  //     } catch (error) {
-  //       console.error('Error loading new blocks', error)
-  //       reject(error)
-  //     }
-  //   })
-  // }
 
   const fetchBlockDetails = useCallback(async () => {
     if (selectedBlock) {

@@ -1,8 +1,8 @@
 .header {
   background-color: #000;
   color: #72f491;
-  width: 100%; /* Ensure the header spans the entire width of the screen */
-  position: relative; /* Ensure the header stays at the top */
+  width: 100%;
+  position: relative;
   top: 0;
   left: 0;
 }
@@ -11,11 +11,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 25px 75px;
+  padding: 1.5vw 7vh;
 }
 
 .logo {
-  height: 40px; /* Set a fixed height */
+  height: 40px;
+  min-height: 30px;
+  max-height: 50px;
   object-fit: contain; /* Ensure the logo scales correctly */
 }
 

@@ -38,13 +38,12 @@
   height: 100px;
   background-color: #240046;
   border-radius: 10px;
-  /* padding: 20px; */
   box-shadow: 0 0 10px rgba(224, 170, 255, 0.3),
     0 0 30px rgba(224, 170, 255, 0.2);
 }
 
-.bar {
+/* .bar {
   width: 20px;
   background-color: #e0aaff;
   transition: height 0.3s ease-in-out;
-}
+} */
