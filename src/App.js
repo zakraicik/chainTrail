@@ -1,5 +1,4 @@
-// App.js
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback, useRef } from 'react'
 import { Alchemy, Network } from 'alchemy-sdk'
 import ScrollableChain from './components/ScrollableChain'
 import BlockSummary from './components/BlockSummary'
@@ -23,12 +22,23 @@ function App () {
   const [blockDetails, setBlockDetails] = useState(null)
   const [transactionDetails, setTransactionDetails] = useState(null)
   const [loading, setLoading] = useState(true) // Add loading state
+  const scrollableChainRef = useRef(null)
 
-  function search (blockNumber) {
-    if (blockNumbers.includes(blockNumber)) {
-      handleBlockSelection(blockNumbers.indexOf(blockNumber))
-    }
-  }
+  const search = useCallback(
+    blockNumber => {
+      try {
+        const blockNum = parseInt(blockNumber)
+        const index = blockNumbers.indexOf(blockNum)
+        if (index !== -1) {
+          handleBlockSelection(blockNum)
+          scrollableChainRef.current.scrollToBlock(index)
+        }
+      } catch (error) {
+        console.error('Error fetching block numbers', error)
+      }
+    },
+    [blockNumbers]
+  )
 
   useEffect(() => {
     async function getBlockNumbers () {
@@ -44,7 +54,7 @@ function App () {
       } catch (error) {
         console.error('Error fetching block numbers', error)
       } finally {
-        setLoading(false) // Set loading to false after data is fetched
+        setLoading(false)
       }
     }
 
@@ -120,10 +130,11 @@ function App () {
           <Header search={search} />
           <div className='scrollable-chain-parent-container'>
             <ScrollableChain
+              ref={scrollableChainRef}
               blockNumbers={blockNumbers}
               handleBlockSelection={handleBlockSelection}
               selectedBlock={selectedBlock}
-              addBlock={addBlock} // Pass the addBlock function as a prop
+              addBlock={addBlock}
             />
           </div>
           <div className='row-container'>
@@ -134,7 +145,7 @@ function App () {
               </>
             ) : (
               <div className='empty-information-container'>
-                <div className='no-selection'>test</div>
+                <div className='no-selection'>No block selected</div>
               </div>
             )}
           </div>
