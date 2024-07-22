@@ -8,7 +8,7 @@
 
 chainTrail is just a prototype built for fun. Consequently, I am not going to deploy the app and rack up a huge usage charge. For that reason, to run chainTrail take the following steps
 
-1. Get a ![Alchemy API key](https://dashboard.alchemy.com/signup/?a=fantom-opera)
+1. Get a [Alchemy API key](https://dashboard.alchemy.com/signup/?a=fantom-opera)
 2. Clone repo
 3. Create `.env` file in the root directory and store API key in format `REACT_APP_ALCHEMY_API_KEY=<your API Key Here>`
 4. Run `npm install`
