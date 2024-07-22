@@ -49,12 +49,11 @@ const ScrollableChain = ({
         totalScrollWidth -
         visibleWidth -
         (numberBlocks - currentIndex) * blockWidth
-    } else if (currentIndex <= 1) {
+    } else if (currentIndex === 1) {
       const newBlockNumbers = await addBlock()
       setNumberBlocks(newBlockNumbers.length)
-      setCurrentIndex(1)
-      handleBlockSelection(newBlockNumbers[1])
-      console.log(blockNumbers)
+      setCurrentIndex(currentIndex)
+      handleBlockSelection(newBlockNumbers[currentIndex])
     }
   }
 
@@ -67,16 +66,26 @@ const ScrollableChain = ({
       handleBlockSelection(null)
     } else {
       handleBlockSelection(blockNumber)
+
+      if (index > 1) {
+        setCurrentIndex(index)
+
+        const scrollDelta = (index + 1 - numberBlocks) * blockWidth
+
+        scrollRef.current.scrollLeft =
+          totalScrollWidth - visibleWidth + scrollDelta
+      } else if (index <= 1) {
+        const newBlockNumbers = await addBlock()
+
+        setNumberBlocks(newBlockNumbers.length)
+        setCurrentIndex(index + 1)
+
+        const scrollDelta = (index + 2 - numberBlocks) * blockWidth
+
+        scrollRef.current.scrollLeft =
+          totalScrollWidth - visibleWidth + scrollDelta
+      }
     }
-
-    const scrollDelta = (index + 1 - numberBlocks) * blockWidth
-
-    scrollRef.current.scrollLeft = totalScrollWidth - visibleWidth + scrollDelta
-
-    // if (index <= 1) {
-    //   await addBlock()
-    //   setCurrentIndex(index + 1)
-    // }
   }
 
   useEffect(() => {
