@@ -21,8 +21,14 @@ function App () {
   const [selectedBlock, setSelectedBlock] = useState(null)
   const [blockDetails, setBlockDetails] = useState(null)
   const [transactionDetails, setTransactionDetails] = useState(null)
-  const [loading, setLoading] = useState(true) // Add loading state
+  const [loading, setLoading] = useState(true)
   const scrollableChainRef = useRef(null)
+
+  const mergeAndSortArrays = (arr1, arr2) => {
+    const mergedArray = arr1.concat(arr2)
+    const sortedArray = mergedArray.sort((a, b) => a - b)
+    return sortedArray
+  }
 
   const search = useCallback(
     blockNumber => {
@@ -32,6 +38,23 @@ function App () {
         if (index !== -1) {
           handleBlockSelection(blockNum)
           scrollableChainRef.current.scrollToBlock(index)
+        } else {
+          const range = 2
+          const blockNumbersArray = []
+          for (let i = blockNum - range; i <= blockNum + range; i++) {
+            blockNumbersArray.push(i)
+          }
+
+          const mergedArray = mergeAndSortArrays(
+            blockNumbers,
+            blockNumbersArray
+          )
+
+          setBlockNumbers(mergedArray)
+          handleBlockSelection(blockNum)
+          scrollableChainRef.current.scrollToBlock(
+            mergedArray.indexOf(blockNum)
+          )
         }
       } catch (error) {
         console.error('Error fetching block numbers', error)
@@ -61,7 +84,7 @@ function App () {
     getBlockNumbers()
   }, [])
 
-  const addBlock = () => {
+  const addEarlierBlock = () => {
     return new Promise((resolve, reject) => {
       try {
         const oldestBlockNumber = blockNumbers[0]
@@ -73,11 +96,29 @@ function App () {
           return newBlockNumbers
         })
       } catch (error) {
-        console.error('Error loading more blocks', error)
+        console.error('Error loading old blocks', error)
         reject(error)
       }
     })
   }
+
+  // const addNewerBlock = () => {
+  //   return new Promise((resolve, reject) => {
+  //     try {
+  //       const newestBlockNumber = blockNumbers[blockNumbers.length - 1]
+  //       const newBlockNumber = newestBlockNumber + 1
+
+  //       setBlockNumbers(prevBlocks => {
+  //         const newBlockNumbers = [...prevBlocks, newBlockNumber]
+  //         resolve(newBlockNumbers)
+  //         return newBlockNumbers
+  //       })
+  //     } catch (error) {
+  //       console.error('Error loading new blocks', error)
+  //       reject(error)
+  //     }
+  //   })
+  // }
 
   const fetchBlockDetails = useCallback(async () => {
     if (selectedBlock) {
@@ -134,7 +175,7 @@ function App () {
               blockNumbers={blockNumbers}
               handleBlockSelection={handleBlockSelection}
               selectedBlock={selectedBlock}
-              addBlock={addBlock}
+              addEarlierBlock={addEarlierBlock}
             />
           </div>
           <div className='row-container'>

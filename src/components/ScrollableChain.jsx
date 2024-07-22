@@ -8,7 +8,10 @@ import React, {
 import '../css/scrollableChain.css'
 
 const ScrollableChain = forwardRef(
-  ({ blockNumbers, handleBlockSelection, selectedBlock, addBlock }, ref) => {
+  (
+    { blockNumbers, handleBlockSelection, selectedBlock, addEarlierBlock },
+    ref
+  ) => {
     const [currentIndex, setCurrentIndex] = useState(blockNumbers.length - 1)
     const [blockWidth, setBlockWidth] = useState(null)
     const scrollRef = useRef(null)
@@ -49,7 +52,7 @@ const ScrollableChain = forwardRef(
         handleBlockSelection(blockNumbers[newIndex])
         handleScroll(newIndex)
       } else if (currentIndex === 1) {
-        const newBlockNumbers = await addBlock()
+        const newBlockNumbers = await addEarlierBlock()
         setCurrentIndex(currentIndex)
         handleBlockSelection(newBlockNumbers[currentIndex])
       }
@@ -61,7 +64,7 @@ const ScrollableChain = forwardRef(
       } else {
         handleBlockSelection(blockNumber)
         if (index <= 1) {
-          await addBlock()
+          await addEarlierBlock()
         }
         setCurrentIndex(index)
         handleScroll(index)
