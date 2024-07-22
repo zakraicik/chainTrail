@@ -18,3 +18,9 @@ export const formatTimestamp = unixTimestamp => {
     timeZoneName: 'short'
   })
 }
+
+export const mergeAndSortArrays = (arr1, arr2) => {
+  const mergedArray = arr1.concat(arr2)
+  const sortedArray = mergedArray.sort((a, b) => a - b)
+  return sortedArray
+}

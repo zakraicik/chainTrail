@@ -6,6 +6,7 @@ import TransactionSummary from './components/TransactionSummary'
 import Header from './components/Header'
 import { RiseLoader } from 'react-spinners'
 import { getBlockDetails, getBlockTransactions } from './helper/alchemyHelpers'
+import { mergeAndSortArrays } from './helper/formatHelpers'
 
 import './App.css'
 
@@ -23,12 +24,6 @@ function App () {
   const [transactionDetails, setTransactionDetails] = useState(null)
   const [loading, setLoading] = useState(true)
   const scrollableChainRef = useRef(null)
-
-  const mergeAndSortArrays = (arr1, arr2) => {
-    const mergedArray = arr1.concat(arr2)
-    const sortedArray = mergedArray.sort((a, b) => a - b)
-    return sortedArray
-  }
 
   const search = useCallback(
     blockNumber => {
@@ -50,10 +45,14 @@ function App () {
             blockNumbersArray
           )
 
-          setBlockNumbers(mergedArray)
+          const maxBlockNumber = Math.max(...blockNumbers)
+
+          const filteredArray = mergedArray.filter(num => num <= maxBlockNumber)
+
+          setBlockNumbers(filteredArray)
           handleBlockSelection(blockNum)
           scrollableChainRef.current.scrollToBlock(
-            mergedArray.indexOf(blockNum)
+            filteredArray.indexOf(blockNum)
           )
         }
       } catch (error) {
@@ -71,7 +70,6 @@ function App () {
         for (let i = 0; i < 5; i++) {
           blockNumbersArray.push(currentBlockNumber - i)
         }
-
         setBlockNumbers(blockNumbersArray.reverse())
         handleBlockSelection(blockNumbersArray.at(-1))
       } catch (error) {
@@ -82,6 +80,17 @@ function App () {
     }
 
     getBlockNumbers()
+
+    const handleNewBlock = blockNumber => {
+      setBlockNumbers(prevBlockNumbers => [...prevBlockNumbers, blockNumber])
+      console.log(blockNumber)
+    }
+
+    alchemy.ws.on('block', handleNewBlock)
+
+    return () => {
+      alchemy.ws.removeAllListeners([])
+    }
   }, [])
 
   const addEarlierBlock = () => {
